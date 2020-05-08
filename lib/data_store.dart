@@ -62,4 +62,6 @@ class DataStore {
     return MenuData.fromDB(result);
   }
 
+  static String token;
+
 }

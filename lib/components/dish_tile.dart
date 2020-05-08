@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:moPass/models/dish.dart';
 
+import 'package:moPass/app_config.dart';
+
 class DishTile extends StatefulWidget {
   final Dish dish;
   final bool initiallyExpanded;
@@ -76,8 +78,7 @@ class _AllergenIconBar extends StatelessWidget {
     //List<GestureDetector> allergenIcons = [];
     List<Image> allergenIcons = [];
     for (String allergen in _allergens) {
-      String pref = 'assets/icons/allergens/';
-      String path = pref + allergen + '.png';
+      String path = 'assets/icons/allergens/$allergen.png';
       allergenIcons.add(Image(image: AssetImage(path), width: 32.0,height:32.0));
     }
     

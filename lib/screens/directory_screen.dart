@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moPass/app_config.dart';
 import 'package:moPass/components/menu_button.dart';
 import 'package:moPass/screens/tables_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,6 +10,7 @@ class DirectoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final baseUrl = AppConfig.of(context).apiBaseUrl;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
