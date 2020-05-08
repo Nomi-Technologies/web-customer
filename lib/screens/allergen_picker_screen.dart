@@ -95,7 +95,7 @@ class _AllergenPickerScreenState extends State<_AllergenPickerScreen> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MenuItemScreen(filterData, widget.menu)),
+              MaterialPageRoute(builder: (context) => MenuItemScreen()),
             );
             if(hiddenCount > 0){
               showDialog(

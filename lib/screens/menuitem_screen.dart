@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/browser_client.dart';
+import 'package:moPass/app_config.dart';
 import 'package:moPass/components/clear_button.dart';
 import 'package:moPass/components/menuitem_page.dart';
 import 'package:moPass/models/filter_data.dart';
@@ -10,16 +14,44 @@ import 'package:moPass/models/dish.dart';
 
 class MenuItemScreen extends StatelessWidget {
 
-  final FilterData filterData;
-  final MenuData menu;
-
-  MenuItemScreen(this.filterData, this.menu);
+  final client = BrowserClient();
 
   @override
   Widget build(BuildContext context) {
-    return FilterDataProvider.value(
-      notifier: filterData,
-      child: _MenuItemScreen(menu)
+    return FutureBuilder<MenuData>(
+      future: () async {
+        final baseUrl = AppConfig.of(context).apiBaseUrl;
+        var res = await client.post('$baseUrl/user/login', 
+          body: {
+            'email': 'admin@gmail.com',
+            'password': 'password123',
+          }
+        );
+        var parsed = json.decode(res.body);
+        res = await client.get('$baseUrl/dishes', headers: { 'Authorization': 'Bearer ${parsed['token']}'});
+        parsed = json.decode(res.body);
+        return MenuData.fromResponse(parsed);
+      }(),
+      builder: (BuildContext context, AsyncSnapshot<MenuData> snap) {
+        if (snap.hasData) {
+          return FilterDataProvider(
+            data: snap.data,
+            child: _MenuItemScreen(snap.data)
+          );
+        } else {
+          return Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: Image(image: AssetImage('assets/icons/arrow_left.png')),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
+            body: Center(child: Text('LOADING or ERROR', 
+              style: TextStyle(color: Colors.white)
+            ))
+          );
+        }
+      },
     );
 
   }
