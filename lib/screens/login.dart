@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/browser_client.dart';
-import 'package:moPass/data_store.dart';
 import 'package:moPass/models/menu_data.dart';
 import 'package:moPass/screens/directory_screen.dart';
 import 'package:provider/provider.dart';
@@ -32,20 +29,18 @@ class _LoginScreenState extends State<LoginScreen> {
   void _login(String email, String password) {
     setState(() => _loading = true);
     final baseUrl = AppConfig.of(context).apiBaseUrl;
-    client.post('$baseUrl/user/login', 
+    client.post('$baseUrl/dishes', 
       body: {
         'email': email,
         'password': password,
       }
     ).then((res) {
-      final parsed = json.decode(res.body);
-      DataStore.token = parsed['token'];
       SharedPreferences.getInstance().then((prefs) {
         prefs.setString('email', email);
         prefs.setString('password', password);
       });
       final MenuDataWrapper menu = Provider.of<MenuDataWrapper>(context);
-      menu.updateWithReq(client.get('$baseUrl/dishes', headers: { 'Authorization': 'Bearer ${DataStore.token}'}));
+      menu.updateWithReq(client.get('$baseUrl/dishes'));
 
       setState(() => _loading = false);
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => DirectoryScreen()));

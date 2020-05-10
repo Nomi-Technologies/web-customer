@@ -8,10 +8,6 @@ import 'dish.dart';
 
 class MenuData {
 
-  MenuData.fromDB(List<Map<String, dynamic>> rows) {
-
-  }
-
   MenuData.fromResponse(List<dynamic> data) {
     for (final dishMap in data) {
       List<String> allergens = [];

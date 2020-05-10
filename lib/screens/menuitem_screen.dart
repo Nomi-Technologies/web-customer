@@ -8,6 +8,7 @@ import 'package:moPass/components/menuitem_page.dart';
 import 'package:moPass/models/filter_data.dart';
 import 'package:moPass/models/menu_data.dart';
 import 'package:moPass/providers/filter_data_provider.dart';
+import 'package:moPass/screens/directory_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:moPass/components/filter_popout.dart';
 import 'package:moPass/models/dish.dart';
@@ -15,6 +16,13 @@ import 'package:moPass/models/dish.dart';
 class MenuItemScreen extends StatelessWidget {
 
   final client = BrowserClient();
+  final int id;
+  final bool landingPage;
+
+  MenuItemScreen({
+    @required this.id,
+    this.landingPage = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +31,6 @@ class MenuItemScreen extends StatelessWidget {
         final baseUrl = AppConfig.of(context).apiBaseUrl;
         var res = await client.post('$baseUrl/user/login', 
           body: {
-            'email': 'admin@gmail.com',
-            'password': 'password123',
           }
         );
         var parsed = json.decode(res.body);
@@ -32,11 +38,11 @@ class MenuItemScreen extends StatelessWidget {
         parsed = json.decode(res.body);
         return MenuData.fromResponse(parsed);
       }(),
-      builder: (BuildContext context, AsyncSnapshot<MenuData> snap) {
+      builder: (context, snap) {
         if (snap.hasData) {
           return FilterDataProvider(
             data: snap.data,
-            child: _MenuItemScreen(snap.data)
+            child: _MenuItemScreen(snap.data, landingPage)
           );
         } else {
           return Scaffold(
@@ -59,8 +65,9 @@ class MenuItemScreen extends StatelessWidget {
 
 class _MenuItemScreen extends StatefulWidget {
   final MenuData menu;
+  final bool landingPage;
 
-  _MenuItemScreen(this.menu);
+  _MenuItemScreen(this.menu, this.landingPage);
 
   @override
   _MenuItemScreenState createState() => _MenuItemScreenState();
@@ -89,7 +96,6 @@ class _MenuItemScreenState extends State<_MenuItemScreen> with SingleTickerProvi
   @override
   Widget build(BuildContext context) {
     final FilterData filterData = Provider.of<FilterData>(context);
-    // final hiddenCount = filterData.excluded.length;
     final hiddenCount = filterData.checkedItemCount;
     
     return Scaffold(
@@ -97,7 +103,11 @@ class _MenuItemScreenState extends State<_MenuItemScreen> with SingleTickerProvi
       appBar: AppBar( 
         leading: new IconButton(
           icon: Image(image: AssetImage('assets/icons/arrow_left.png')),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => widget.landingPage?
+            Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => DirectoryScreen()
+            ))
+            : Navigator.of(context).pop(),
         ), 
         backgroundColor: Theme.of(context).accentColor,
         actions: <Widget>[ 

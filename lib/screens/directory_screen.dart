@@ -1,52 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:moPass/app_config.dart';
 import 'package:moPass/components/menu_button.dart';
-import 'package:moPass/screens/tables_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'allergen_picker_screen.dart';
+import 'package:moPass/screens/menuitem_screen.dart';
 
 class DirectoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final baseUrl = AppConfig.of(context).apiBaseUrl;
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.exit_to_app),
-          onPressed: () async {
-            final prefs = await SharedPreferences.getInstance();
-            prefs.setString('token', null);
-            Navigator.pop(context);
-          }
-        ),
-      ),
       body: Column(
         children: [
-          Container(
-            margin: EdgeInsets.only(top: 62.0, bottom: 50.0),
-            child: Align(
-              alignment: Alignment.center,
-              child: Image(image: AssetImage('assets/images/bacari-white.png'), height: 60.0),
-              //Text('BACARI', style: new TextStyle(fontSize: 30.0, color: Colors.white))
-            )
-          ),
           ListView(
             shrinkWrap: true,
             padding: EdgeInsets.symmetric(horizontal: 25.0),
             children: [
-              _DirectoryItemButton(text: 'Filter by Allergen / Diet',
+              _DirectoryItemButton(text: 'Bacari',
                 onPressed: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AllergenPickerScreen())
+                  MaterialPageRoute(builder: (context) => MenuItemScreen(id: 1))
                 )
-              ),
-              _DirectoryItemButton(text: 'Manage Tables',
-                onPressed: () => Navigator.push(
-                  context, 
-                  MaterialPageRoute(builder: (context) => TableScreen())
-                ),
               ),
             ]
           ),
