@@ -16,36 +16,36 @@ class _DishTileState extends State<DishTile> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0),  color: Theme.of(context).accentColor),
       margin: EdgeInsets.only(bottom: 15.0), //between cards
-      child: Theme(
-        data: Theme.of(context).copyWith(accentColor: Colors.white),
-        child: Column(
-          children: <Widget>[
-            ExpansionTile(
-              initiallyExpanded: widget.initiallyExpanded,
-              onExpansionChanged: widget.onExpansionChanged,
-              //trailing: Image(image: AssetImage('assets/icons/expand_arrow_more.png')),
-              title: Container(
-                //padding: EdgeInsets.all(2.0),
-                child: Text(
-                  widget.dish.name, 
-                  style: TextStyle(fontSize: 18.0, color: Colors.white)
-              )),
-              children: <Widget>[
-                Column(
-                  children: _buildExpandableContent(widget.dish),
-                ),
-              ],
-            ),
-            _AllergenIconBar(widget.dish.allergens)
-          ],
-      ))
+      child: Column(
+        children: <Widget>[
+          ExpansionTile(
+            initiallyExpanded: widget.initiallyExpanded,
+            onExpansionChanged: widget.onExpansionChanged,
+            //trailing: Image(image: AssetImage('assets/icons/expand_arrow_more.png')),
+            title: Container(
+              //padding: EdgeInsets.all(2.0),
+              child: Text(
+                widget.dish.name, 
+                style: theme.primaryTextTheme.bodyText1,
+            )),
+            children: <Widget>[
+              Column(
+                children: _buildExpandableContent(widget.dish),
+              ),
+            ],
+          ),
+          _AllergenIconBar(widget.dish.allergens)
+        ],
+      )
     );
   }
 
   _buildExpandableContent(Dish dish) {
+    final theme = Theme.of(context);
     List<Widget> columnContent = [];
 
     columnContent.add(
@@ -53,11 +53,9 @@ class _DishTileState extends State<DishTile> {
         color: Color.fromRGBO(255, 255, 255, 0.05),
         padding: EdgeInsets.symmetric(vertical: 0.0),
         child: ListTile(
-          title: Text(dish.description, style: TextStyle(
-            fontSize: 18.0, 
-            color: Colors.white.withOpacity(0.7), 
-            fontStyle: FontStyle.italic
-          ))
+          title: Text(dish.description,
+          style: theme.primaryTextTheme.bodyText2
+        )
       ))
     );
 
@@ -73,6 +71,7 @@ class _AllergenIconBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     //List<GestureDetector> allergenIcons = [];
     List<Image> allergenIcons = [];
     for (String allergen in _allergens) {
@@ -83,43 +82,42 @@ class _AllergenIconBar extends StatelessWidget {
     return GestureDetector(
       onTap:(){
          showDialog(
-              barrierDismissible: true,
-              context: context,
-              builder: (BuildContext context){
-                return AlertDialog(
-                  backgroundColor: Color.fromRGBO(57, 57, 57, 1),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                  title: Text("Contains: ", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22.0)),
-                  content: Container(
-                    width: 200.0,
-                    height: 115.0,
-                    child: Scrollbar(
-                      child: ListView(
-                        children: new List.generate(_allergens.length, (index){
-                          return Padding(
-                            padding: EdgeInsets.only(bottom: 16.0),
-                            child: Row(
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(right: 20.0),
-                                  child: allergenIcons[index]
-                                ),
-                                Text(_allergens[index], style: TextStyle(color: Colors.white, fontSize: 18.0))
-                              ],
-                            )
-                          );
-                        })
-                      )
+            barrierDismissible: true,
+            context: context,
+            builder: (context) =>
+              AlertDialog(
+                backgroundColor: Color.fromRGBO(57, 57, 57, 1),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                title: Text("Contains: ", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22.0)),
+                content: Container(
+                  width: 200.0,
+                  height: 115.0,
+                  child: Scrollbar(
+                    child: ListView(
+                      children: new List.generate(_allergens.length, (index){
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 16.0),
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(right: 20.0),
+                                child: allergenIcons[index]
+                              ),
+                              Text(_allergens[index], style: theme.primaryTextTheme.bodyText1)
+                            ],
+                          )
+                        );
+                      })
                     )
                   )
-                );
-              }
-            );
+                )
+              )
+          );
         
       },
       child: Container(
         decoration: BoxDecoration(border: Border(top: BorderSide(
-          color: Color.fromRGBO(255, 255, 255, 0.1),
+          color: Color.fromRGBO(83, 131, 236, 0.15),
           width: 1.0
         ))),
         child: GridView.extent(

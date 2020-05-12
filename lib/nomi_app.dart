@@ -4,6 +4,19 @@ import 'package:moPass/screens/menuitem_screen.dart';
 
 class NomiApp extends StatelessWidget {
 
+  final theme = ThemeData(
+    scaffoldBackgroundColor: Color.fromRGBO(242, 243, 245, 1.0),
+    primaryColor: Colors.white,
+    accentColor: Colors.white,
+    fontFamily: 'HKGrotesk',
+    highlightColor: Color.fromRGBO(83, 131, 236, 1.0),
+    primaryTextTheme: TextTheme(
+      bodyText1: TextStyle(fontSize: 18.0, color: Colors.black),
+      bodyText2: TextStyle(fontSize: 18.0, color: Colors.black, fontStyle: FontStyle.italic),
+    ),
+    unselectedWidgetColor: Colors.white,
+  );
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -12,13 +25,7 @@ class NomiApp extends StatelessWidget {
         '/': (context) {
           return MaterialApp(
             title: 'Nomi',
-            theme: ThemeData(
-              scaffoldBackgroundColor: Colors.black,
-              primaryColor: Colors.black,
-              accentColor: Color.fromRGBO(25, 25, 25, 1),
-              fontFamily: 'HKGrotesk',
-              unselectedWidgetColor: Colors.white,
-            ),
+            theme: theme,
             home: DirectoryScreen(),
           );
         }
@@ -41,13 +48,7 @@ class NomiApp extends StatelessWidget {
   Route _getMaterialApp(Widget widget, RouteSettings settings) => MaterialPageRoute(
     builder: (context) => MaterialApp(
       title: 'Nomi',
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.black,
-        primaryColor: Colors.black,
-        accentColor: Color.fromRGBO(25, 25, 25, 1),
-        fontFamily: 'HKGrotesk',
-        unselectedWidgetColor: Colors.white,
-      ),
+      theme: theme,
       home: widget,
     ),
     settings: settings,

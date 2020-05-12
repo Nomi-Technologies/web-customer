@@ -24,14 +24,14 @@ class MenuButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
+    final theme = Theme.of(context);
     List<Widget> content = [
       Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         alignment: this.align,
         child: Text(
           this.text, 
-          style: TextStyle(fontSize: 18.0, color: Colors.white),
+          style: theme.primaryTextTheme.bodyText1,
         )
       )
     ];
@@ -44,7 +44,7 @@ class MenuButton extends StatelessWidget {
       width: this.width,
       child: RaisedButton(onPressed: this.onPressed,
         padding: EdgeInsets.zero,
-        color: Theme.of(context).accentColor,
+        color: Theme.of(context).primaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(10.0),
           side: this.borderSide)

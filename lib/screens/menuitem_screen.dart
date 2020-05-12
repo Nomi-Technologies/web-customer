@@ -93,7 +93,7 @@ class _MenuItemScreenState extends State<_MenuItemScreen> with SingleTickerProvi
   Widget build(BuildContext context) {
     final FilterData filterData = Provider.of<FilterData>(context);
     final hiddenCount = filterData.checkedItemCount;
-    
+    final theme = Theme.of(context);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar( 
@@ -105,7 +105,7 @@ class _MenuItemScreenState extends State<_MenuItemScreen> with SingleTickerProvi
             ))
             : Navigator.of(context).pop(),
         ), 
-        backgroundColor: Theme.of(context).accentColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         actions: <Widget>[ 
           IconButton(
             icon: const Icon(Icons.filter_list),
@@ -117,7 +117,9 @@ class _MenuItemScreenState extends State<_MenuItemScreen> with SingleTickerProvi
         bottom: TabBar( //scrollable tabs
           controller: _controller,
           isScrollable: true,
-          indicator: UnderlineTabIndicator(),
+          indicator: UnderlineTabIndicator(
+            borderSide: BorderSide(width: 4.0, color: theme.highlightColor)
+          ),
           tabs: widget.menu.categories.map<Tab>(
             (String category) => Tab(text: category)
           ).toList(),
