@@ -29,13 +29,8 @@ class MenuItemScreen extends StatelessWidget {
     return FutureBuilder<MenuData>(
       future: () async {
         final baseUrl = AppConfig.of(context).apiBaseUrl;
-        var res = await client.post('$baseUrl/user/login', 
-          body: {
-          }
-        );
-        var parsed = json.decode(res.body);
-        res = await client.get('$baseUrl/dishes', headers: { 'Authorization': 'Bearer ${parsed['token']}'});
-        parsed = json.decode(res.body);
+        final res = await client.get('$baseUrl/webApi/dishes/$id'); 
+        final parsed = json.decode(res.body);
         return MenuData.fromResponse(parsed);
       }(),
       builder: (context, snap) {
@@ -45,6 +40,7 @@ class MenuItemScreen extends StatelessWidget {
             child: _MenuItemScreen(snap.data, landingPage)
           );
         } else {
+          print(snap.error);
           return Scaffold(
             appBar: AppBar(
               leading: IconButton(

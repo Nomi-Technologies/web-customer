@@ -11,14 +11,6 @@ class Dish {
     this.name,
     this.description,
     this.allergens,
-    this.tableTalk,
     this.category,
-  });
-
-  final String tableTalk;
-
-  const Dish(this.name, this.description, this.allergens, this.tableTalk, {
-    this.id = 0,
-    this.category = '',
   });
 }
