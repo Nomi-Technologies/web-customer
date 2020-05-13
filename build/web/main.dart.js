@@ -13966,7 +13966,7 @@ p=X.ZN(C.j,null,"HKGrotesk",P.da(83,131,236,1),C.j,R.Rt(A.d5(null,null,C.n,null,
 if($.aT==null){r=u.e
 q=u.l7
 new N.tm(null,H.b([],u.Ba),!0,new P.aE(new P.M($.J,u.D),u.h),!1,null,!1,null,null,null,0,!1,null,null,new N.v2(P.bx(u.B)),null,H.b([],u.hZ),null,N.a3X(),Y.a12(N.a3W(),u.ox),!1,0,P.u(r,u.dn),P.aR(r),H.b([],q),H.b([],q),null,!1,C.bK,!0,!1,null,C.M,C.M,null,0,null,!1,P.q2(null,u.kt),new O.zJ(P.u(r,u.ml),P.u(u.kF,u.h3)),new D.xQ(P.u(r,u.Di)),new G.zK(),P.u(r,u.D5)).xs()}r=$.aT
-r.F0(new U.kZ("http://localhost:3000",new U.yQ(p,null),null))
+r.F0(new U.kZ("https://nomi-menu-service.herokuapp.com",new U.yQ(p,null),null))
 r.wo()
 return P.ai(null,s)}})
 return P.aj($async$GN,s)}},O={cb:function cb(a,b){this.a=a
