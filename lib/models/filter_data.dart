@@ -25,6 +25,8 @@ class FilterData extends ChangeNotifier {
     }
   }
 
+  Map<String, bool> get listItems => _filters;
+
   bool getItem(String item) {
     if (!_filters.containsKey(item)) {
       throw ErrorDescription('Inconsistent filter data');

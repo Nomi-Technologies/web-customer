@@ -1,12 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/browser_client.dart';
-import 'package:moPass/models/menu_data.dart';
 import 'package:moPass/screens/directory_screen.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../app_config.dart';
 
 class LoginScreen extends StatefulWidget {
 
@@ -27,50 +22,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final client = BrowserClient();
 
   void _login(String email, String password) {
-    setState(() => _loading = true);
-    final baseUrl = AppConfig.of(context).apiBaseUrl;
-    client.post('$baseUrl/dishes', 
-      body: {
-        'email': email,
-        'password': password,
-      }
-    ).then((res) {
-      SharedPreferences.getInstance().then((prefs) {
-        prefs.setString('email', email);
-        prefs.setString('password', password);
-      });
-      final MenuDataWrapper menu = Provider.of<MenuDataWrapper>(context);
-      menu.updateWithReq(client.get('$baseUrl/dishes'));
-
-      setState(() => _loading = false);
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => DirectoryScreen()));
-    }).catchError((err) {
-      SharedPreferences.getInstance().then((prefs) {
-        prefs.setString('email', null);
-        prefs.setString('password', null);
-      });
-      setState(() {
-        _loading = false;
-        try {
-          _errorMsg = err.response.data['msg'];
-        } catch (e) {
-          print('Login failed unexpectedly: $err');
-          _errorMsg = 'An unexpected error occurred';
-        }
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    SharedPreferences.getInstance().then((prefs) {
-      String email = prefs.getString('email');
-      String password = prefs.getString('password');
-      if (email != null && password != null) {
-        _login(email, password);
-      }
-    });
   }
 
   void _onSubmit() {

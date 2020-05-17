@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moPass/components/menu_button.dart';
+import 'package:moPass/components/nomi_logo.dart';
 import 'package:moPass/screens/menuitem_screen.dart';
 
 class DirectoryScreen extends StatelessWidget {
@@ -23,27 +24,7 @@ class DirectoryScreen extends StatelessWidget {
           ),
           Expanded(
             child: Align(alignment: Alignment.bottomCenter,
-              child: Container(
-                padding: EdgeInsets.only(bottom: 30.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Powered by',
-                        style: TextStyle(
-                          color: Color.fromRGBO(128, 128, 128, 1.0),
-                          fontSize: 18.0,
-                        ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(left: 8.0, bottom: 4.0),
-                      child: Image(
-                        height: 16.0,
-                        image: AssetImage('assets/icons/nomi-white-withword.png'), 
-                        color: Color.fromRGBO(128, 128, 128, 1.0),
-                      )
-                    )
-                ])
-              )
+              child: NomiLogo(color: Color.fromRGBO(128, 128, 128, 1.0))
             ),
           )
         ]
@@ -73,7 +54,7 @@ class _DirectoryItemButton extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: Image(image: AssetImage('assets/icons/arrow_right.png'))
         ),
-        borderSide: BorderSide(color: Theme.of(context).accentColor),
+        borderSide: BorderSide(color: Theme.of(context).primaryColor),
       )
     );
   }

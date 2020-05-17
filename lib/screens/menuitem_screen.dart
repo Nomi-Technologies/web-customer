@@ -3,14 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/browser_client.dart';
 import 'package:moPass/app_config.dart';
-import 'package:moPass/components/clear_button.dart';
+import 'package:moPass/components/filter_slideup_panel.dart';
 import 'package:moPass/components/menuitem_page.dart';
+import 'package:moPass/components/nomi_logo.dart';
 import 'package:moPass/models/filter_data.dart';
 import 'package:moPass/models/menu_data.dart';
 import 'package:moPass/providers/filter_data_provider.dart';
-import 'package:moPass/screens/directory_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:moPass/components/filter_popout.dart';
 import 'package:moPass/models/dish.dart';
 
 class MenuItemScreen extends StatelessWidget {
@@ -18,6 +17,7 @@ class MenuItemScreen extends StatelessWidget {
   final client = BrowserClient();
   final int id;
   final bool landingPage;
+  static final kTabBarHeight = 60.0;
 
   MenuItemScreen({
     @required this.id,
@@ -71,7 +71,7 @@ class _MenuItemScreen extends StatefulWidget {
 
 class _MenuItemScreenState extends State<_MenuItemScreen> with SingleTickerProviderStateMixin {
   TabController _controller;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  // AnimationController _bsac = AnimationController(vsync: null);
 
   @override
   void initState() {
@@ -92,69 +92,50 @@ class _MenuItemScreenState extends State<_MenuItemScreen> with SingleTickerProvi
   @override
   Widget build(BuildContext context) {
     final FilterData filterData = Provider.of<FilterData>(context);
-    final hiddenCount = filterData.checkedItemCount;
     final theme = Theme.of(context);
+    final tabBar = TabBar( //scrollable tabs
+      controller: _controller,
+      isScrollable: true,
+      indicator: UnderlineTabIndicator(
+        borderSide: BorderSide(width: 4.0, color: theme.accentColor)
+      ),
+      tabs: widget.menu.categories.map<Tab>(
+        (String category) => Tab(text: category)
+      ).toList(),
+    );
+
     return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar( 
-        leading: new IconButton(
-          icon: Image(image: AssetImage('assets/icons/arrow_left.png')),
-          onPressed: () => widget.landingPage?
-            Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => DirectoryScreen()
-            ))
-            : Navigator.of(context).pop(),
-        ), 
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        actions: <Widget>[ 
-          IconButton(
-            icon: const Icon(Icons.filter_list),
-            onPressed: () {
-              _scaffoldKey.currentState.openEndDrawer();
-            }
-          )
-        ],
-        bottom: TabBar( //scrollable tabs
-          controller: _controller,
-          isScrollable: true,
-          indicator: UnderlineTabIndicator(
-            borderSide: BorderSide(width: 4.0, color: theme.highlightColor)
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(tabBar.preferredSize.height),
+        child: Container(
+          alignment: Alignment.center,
+          child: tabBar,
+          decoration: BoxDecoration(color: theme.primaryColor,
           ),
-          tabs: widget.menu.categories.map<Tab>(
-            (String category) => Tab(text: category)
-          ).toList(),
         ),
       ),
-      endDrawer: Drawer(child: FilterPopout(widget.menu,
-        // onCloseListener: () {
-        //   WidgetsBinding.instance.addPostFrameCallback((_){
-        //     if (!_scaffoldKey.currentState.isEndDrawerOpen) {
-        //       filterData.saveFilter();
-        //     }
-        //   });
-        // }
-        )
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          // Container(
+          //   margin: EdgeInsets.only(bottom: 115.0),
+          //   child: NomiLogo(color: Color.fromRGBO(138, 157, 183, 0.5)),
+          // ),
+          TabBarView(
+            controller: _controller,
+            children: widget.menu.categories.map<Widget>((String category) {
+              List<Dish> dishes = [];
+              for (Dish dish in widget.menu.dishesByCategory[category]) {
+                if (!filterData.excluded.contains(dish.name)) {
+                  dishes.add(dish);
+                }
+              }
+              return MenuItemPage(dishes);  
+            }).toList()
+          ),
+          FilterHeaderBar(height: 80.0),
+        ]
       ),
-      body: TabBarView(
-        controller: _controller,
-        children: widget.menu.categories.map<Widget>((String category) {
-          List<Dish> dishes = [];
-          for (Dish dish in widget.menu.dishesByCategory[category]) {
-            if (!filterData.excluded.contains(dish.name)) {
-              dishes.add(dish);
-            }
-          }
-          return MenuItemPage(dishes);  
-        }).toList(),
-      ),
-      floatingActionButton: new Visibility(
-        visible: filterData.excluded.isNotEmpty,
-        child: Container(
-          padding: EdgeInsets.only(bottom: 20.0),
-          child: ClearButton(onPressed: filterData.clearFilter, hiddenCount: hiddenCount)
-        )
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
