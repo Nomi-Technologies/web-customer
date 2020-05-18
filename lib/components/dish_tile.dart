@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:moPass/models/dish.dart';
 
-class DishTile extends StatefulWidget {
+class DishTile extends StatelessWidget {
   final Dish dish;
   final bool initiallyExpanded;
   final Function(bool) onExpansionChanged;
 
   DishTile(this.dish, {this.initiallyExpanded, @required this.onExpansionChanged});
-
-  @override
-  _DishTileState createState() => _DishTileState();
-}
-
-class _DishTileState extends State<DishTile> {
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +26,8 @@ class _DishTileState extends State<DishTile> {
           icon: Icon(Icons.info),
           onPressed: () => print('POP UP'),
         ),
-        initiallyExpanded: widget.initiallyExpanded,
-        onExpansionChanged: widget.onExpansionChanged,
+        initiallyExpanded: this.initiallyExpanded,
+        onExpansionChanged: this.onExpansionChanged,
         title: Container(
           padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
           decoration: BoxDecoration(border: Border(bottom: BorderSide(
@@ -42,14 +36,14 @@ class _DishTileState extends State<DishTile> {
           ))),
           alignment: Alignment.centerLeft,
           child: Text(
-            widget.dish.name, 
+            this.dish.name, 
             style: theme.primaryTextTheme.headline1,
         )),
         subtitle: Container(
           padding: EdgeInsets.only(top: 14.0, bottom: 10.0),
           alignment: Alignment.centerLeft,
           child: Text(
-            widget.dish.description,
+            this.dish.description,
             style: theme.primaryTextTheme.bodyText2
         )),
         children: <Widget>[
