@@ -110,8 +110,7 @@ class _MenuItemScreenState extends State<_MenuItemScreen> with SingleTickerProvi
         child: Container(
           alignment: Alignment.center,
           child: tabBar,
-          decoration: BoxDecoration(color: theme.primaryColor,
-          ),
+          decoration: BoxDecoration(color: theme.primaryColor),
         ),
       ),
       body: Stack(
