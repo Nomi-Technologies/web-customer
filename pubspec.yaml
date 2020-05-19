@@ -24,8 +24,6 @@ dependencies:
   ordered_set:
   cupertino_icons: ^0.1.2
   http:
-  provider: ^2.0.0
-  sliding_up_panel: ^1.0.2
 
 dev_dependencies:
   flutter_test:
@@ -46,6 +44,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+    - assets/data.json
     - assets/icons/
     - assets/icons/allergens/
     - assets/images/bacari-white.png

@@ -3,10 +3,8 @@ import 'package:moPass/models/dish.dart';
 
 class DishTile extends StatelessWidget {
   final Dish dish;
-  final bool initiallyExpanded;
-  final Function(bool) onExpansionChanged;
 
-  DishTile(this.dish, {this.initiallyExpanded, @required this.onExpansionChanged});
+  DishTile(this.dish);
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +24,6 @@ class DishTile extends StatelessWidget {
           icon: Icon(Icons.info),
           onPressed: () => print('POP UP'),
         ),
-        initiallyExpanded: this.initiallyExpanded,
-        onExpansionChanged: this.onExpansionChanged,
         title: Container(
           padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
           decoration: BoxDecoration(border: Border(bottom: BorderSide(
@@ -47,6 +43,7 @@ class DishTile extends StatelessWidget {
             style: theme.primaryTextTheme.bodyText2
         )),
         children: <Widget>[
+          Text('Add to cart')
         ],
       ),
     );
