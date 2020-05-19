@@ -7,7 +7,6 @@ class NomiApp extends StatelessWidget {
     scaffoldBackgroundColor: Color.fromRGBO(242, 243, 245, 1.0),
     primaryColor: Colors.white,
     buttonColor: Colors.black,
-    fontFamily: 'HKGrotesk',
     accentColor: Color.fromRGBO(83, 131, 236, 1),
     dividerColor: Color.fromRGBO(83, 131, 236, 0.15),
     primaryTextTheme: TextTheme(

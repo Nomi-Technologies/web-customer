@@ -1,8 +1,4 @@
 import 'dart:collection';
-import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart';
 
 import 'dish.dart';
 
@@ -59,41 +55,4 @@ class MenuData {
   Map<int, Dish> get dishes => _dishes;
   Map<String, List<Dish>> get dishesByCategory => _dishesByCategory;
   Map<String, Set<Dish>> get dishesByAllergens => _dishesByAllergens;
-}
-
-class MenuDataWrapper extends ChangeNotifier {
-  Future<MenuData> get menu async {
-    if (_e != null) {
-      throw _e;
-    }
-    return _menu;
-  }
-
-  Future<MenuData> _menu;
-
-  dynamic _e;
-
-  MenuDataWrapper(this._menu);
-
-  void updateWithReq(Future<Response> response) {
-    _menu = () async {
-      var res;
-      var parsed;
-      try {
-        res = await response;
-        parsed = json.decode(res.body);
-        _e = null;
-      } catch (e) {
-        _e = e;
-        return this._menu;
-      }
-      if (false) {
-        // 304
-        return this._menu;
-      } else {
-        return MenuData.fromResponse(parsed);
-      }
-    }();
-    notifyListeners();
-  }
 }

@@ -19,17 +19,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  path_provider:
-  path:
   ordered_set:
-  cupertino_icons: ^0.1.2
-  http:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  font_awesome_flutter: 8.5.0
-  flutter_launcher_icons: ^0.7.2
 
 flutter_icons:
   ios: true
